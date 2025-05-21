@@ -1,6 +1,7 @@
 /// <reference types='vitest' />
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+// import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig(() => ({
   root: __dirname,
@@ -14,6 +15,7 @@ export default defineConfig(() => ({
     host: 'localhost',
   },
   plugins: [react()],
+  
   // Uncomment this if you are using workers.
   // worker: {
   //  plugins: [ nxViteTsPaths() ],

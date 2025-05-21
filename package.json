@@ -1,10 +1,16 @@
 {
-  "name": "@./source",
+  "name": "E-Learning-System",
   "version": "0.0.0",
-  "license": "MIT",
-  "scripts": {},
+  "engines": {
+    "node": "22.14.0"
+  },
+  "scripts": {
+    "start:student-app": "pnpm exec nx serve student-app"
+  },
   "private": true,
   "dependencies": {
+    "@tailwindcss/vite": "^4.0.15",
+    "phosphor-react": "^1.4.1",
     "react": "19.0.0",
     "react-dom": "19.0.0",
     "react-router-dom": "6.29.0"
@@ -28,6 +34,7 @@
     "@vitejs/plugin-react": "^4.2.0",
     "@vitest/ui": "^3.0.0",
     "autoprefixer": "10.4.13",
+    "daisyui": "^4.12.24",
     "eslint": "^9.8.0",
     "eslint-config-prettier": "^10.0.0",
     "eslint-plugin-import": "2.31.0",
