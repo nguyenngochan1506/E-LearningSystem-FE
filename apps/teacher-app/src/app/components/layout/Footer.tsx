@@ -1,23 +1,27 @@
+import { useGlobalContext } from '../common/GlobalContext';
+import { translate } from '../common/translate/translate';
+
 const Footer = () => {
+  const { language } = useGlobalContext();
   return (
     <footer className="bg-white text-gray-600 p-4 text-center">
       <div className="flex justify-center space-x-8 mb-4">
         <div>
-          <h3 className="font-bold">Ứng dụng</h3>
-          <p className="text-gray-500">Nền tảng học tập trực tuyến</p>
+          <h3 className="font-bold">{translate('APPLICATION')}</h3>
+          <p className="text-gray-500">{translate('E_LEARNING')}</p>
         </div>
         <div>
-          <h3 className="font-bold">Liên kết nhân</h3>
-          <p>Về chúng tôi</p>
-          <p>Blog</p>
+          <h3 className="font-bold">{translate('LINKS')}</h3>
+          <p>{translate('ABOUT_US')}</p>
+          <p>{translate('BLOG')}</p>
         </div>
         <div>
-          <h3 className="font-bold">Hỗ trợ</h3>
-          <p>FAQ</p>
-          <p>Liên hệ</p>
+          <h3 className="font-bold">{translate('SUPPORT')}</h3>
+          <p>{translate('FAQ')}</p>
+          <p>{translate('CONTACT')}</p>
         </div>
         <div>
-          <h3 className="font-bold">MXH</h3>
+          <h3 className="font-bold">{translate('SOCIAL_MEDIA')}</h3>
           <div className="flex space-x-2">
             <a
               href="https://facebook.com"
@@ -40,7 +44,7 @@ const Footer = () => {
           </div>
         </div>
       </div>
-      <p className="text-sm">© 2024 Ứng dụng</p>
+      <p className="text-sm">{translate('COPYRIGHT_2025')}</p>
     </footer>
   );
 };
