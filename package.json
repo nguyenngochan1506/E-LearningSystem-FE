@@ -5,7 +5,8 @@
     "node": "22.14.0"
   },
   "scripts": {
-    "start:student-app": "pnpm exec nx serve student-app"
+    "start:student-app": "pnpm exec nx serve student-app",
+    "start:teacher-app": "pnpm exec nx serve teacher-app"
   },
   "private": true,
   "dependencies": {

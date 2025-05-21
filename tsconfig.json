@@ -5,6 +5,9 @@
   "references": [
     {
       "path": "./apps/student-app"
+    },
+    {
+      "path": "./apps/teacher-app"
     }
   ]
 }
