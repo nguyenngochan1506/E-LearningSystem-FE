@@ -1,6 +1,10 @@
-import { List } from 'phosphor-react';
+import { House, List, Shield, User } from 'phosphor-react';
+import { useGlobalContext } from '../common/GlobalContext';
+import { Link } from 'react-router-dom';
+import { translate } from '../common/translate/translate';
 
 const SideBar = () => {
+  const { language } = useGlobalContext();
   return (
     <div className="drawer">
       <input id="my-drawer" type="checkbox" className="drawer-toggle" />
@@ -16,13 +20,17 @@ const SideBar = () => {
           aria-label="close sidebar"
           className="drawer-overlay"
         ></label>
-        <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4">
+        <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4 text-lg">
           {/* Sidebar content here */}
           <li>
-            <a>Sidebar Item 1</a>
+            <Link to="/">
+              <House size={32} /> {translate('HOME')}
+            </Link>
           </li>
           <li>
-            <a>Sidebar Item 2</a>
+            <Link to="/users">
+              <User size={32} /> {translate('USERS')}
+            </Link>
           </li>
         </ul>
       </div>
