@@ -5,7 +5,7 @@ import DashBoardLayout from './components/layout/DashBoardLayout';
 import DashBoard from './pages/dashboard/DashBoard';
 import UserManagement from './pages/user-management/UserManagement';
 import CreateCourse from './pages/course/create_course';
-import CourseForm from './pages/course/CourseForm';
+// import CourseForm from './pages/course/CourseForm';
 
 export function App() {
   return (
@@ -16,10 +16,13 @@ export function App() {
         <Route path="/" element={<DashBoard />} />
         <Route path="/users" element={<UserManagement />} />
         <Route path="/course/create_course" element={<CreateCourse />} />
-        <Route path="/course/form/:courseId" element={<CourseForm />} />
+        {/* <Route path="/course/form/:courseId" element={<CourseForm />} /> */}
       </Route>
     </Routes>
   );
 }
-
+export async function createCourseAPI(course: any) {
+  console.log('Mock creating course:', course);
+  return { success: true, data: course };
+}
 export default App;
