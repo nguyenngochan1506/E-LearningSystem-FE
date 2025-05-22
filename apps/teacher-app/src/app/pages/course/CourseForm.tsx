@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Plus } from 'lucide-react';
+import { Plus } from 'phosphor-react';
 import { Course, Lesson } from './types';
 
 interface CourseFormProps {
@@ -8,7 +8,11 @@ interface CourseFormProps {
   onAddLessonClick: () => void;
 }
 
-export default function CourseForm({ course, onCourseChange, onAddLessonClick }: CourseFormProps) {
+export default function CourseForm({
+  course,
+  onCourseChange,
+  onAddLessonClick,
+}: CourseFormProps) {
   const [localCourse, setLocalCourse] = useState(course);
 
   useEffect(() => {
