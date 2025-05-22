@@ -146,7 +146,7 @@ const Quiz = () => {
 
   const handleNextQuestion = () => {
     const current = assignment?.questions?.[currentQuestion];
-    let newAnswers = [...answers];
+    const newAnswers = [...answers];
 
     if (current?.type === 'multiple-choice' && selectedAnswer !== null) {
       newAnswers[currentQuestion] = selectedAnswer;
