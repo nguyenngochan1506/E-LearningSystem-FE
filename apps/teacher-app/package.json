@@ -1,5 +1,8 @@
 {
   "name": "teacher-app",
   "version": "0.0.1",
-  "private": true
+  "private": true,
+  "dependencies": {
+    "lucide-react": "^0.511.0"
+  }
 }

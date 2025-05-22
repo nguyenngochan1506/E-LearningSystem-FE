@@ -18,6 +18,7 @@ export function App() {
         <Route path="/course/create_course" element={<CreateCourse />} />
         <Route path="/course/form/:courseId" element={<CourseForm />} />
       </Route>
+      <Route path="/grade/:assignmentId" element={<GradeAssignment />} />
     </Routes>
   );
 }
