@@ -1,14 +1,18 @@
+
 import { useState, useEffect, useRef } from 'react';
 import { Plus, BookOpen, Money, List, FileText, FloppyDisk, Upload, X } from 'phosphor-react';
 import { Course } from './types';
-
 interface CourseFormProps {
   course: Course;
   onCourseChange: (course: Course) => void;
   onAddLessonClick: () => void;
 }
 
-export default function CourseForm({ course, onCourseChange, onAddLessonClick }: CourseFormProps) {
+export default function CourseForm({
+  course,
+  onCourseChange,
+  onAddLessonClick,
+}: CourseFormProps) {
   const [localCourse, setLocalCourse] = useState(course);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [imagePreview, setImagePreview] = useState<string | null>(null);

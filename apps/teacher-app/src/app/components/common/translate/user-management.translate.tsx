@@ -39,4 +39,8 @@ export default {
     vi: 'Ngày tạo',
     en: 'Created At',
   },
+  EDIT_USER: {
+    vi: 'Chỉnh sửa người dùng',
+    en: 'Edit User',
+  },
 };

@@ -4,6 +4,8 @@ import { LanguageType } from '../../types/LanguageType';
 export interface GlobalType {
   language: LanguageType;
   setLanguage: (language: LanguageType) => void;
+  isLogin: boolean;
+  setIsLogin: (isLogin: boolean) => void;
 }
 
 export const GlobalContext = createContext<GlobalType | undefined>(undefined);
@@ -13,6 +15,7 @@ export const GlobalContextProvider = ({
   children: React.ReactNode;
 }) => {
   const [language, setLanguage] = useState<LanguageType>('vi');
+  const [isLogin, setIsLogin] = useState<boolean>(false);
 
   useEffect(() => {
     const storedLanguage = localStorage.getItem('language') as LanguageType;
@@ -26,6 +29,8 @@ export const GlobalContextProvider = ({
       value={{
         language,
         setLanguage,
+        isLogin,
+        setIsLogin,
       }}
     >
       {children}
