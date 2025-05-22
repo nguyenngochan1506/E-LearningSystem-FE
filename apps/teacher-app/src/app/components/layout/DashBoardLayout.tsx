@@ -2,18 +2,18 @@ import { ReactNode } from 'react';
 import Header from './Header';
 import Footer from './Footer';
 
-interface DashBoardLayoutProps {
+type Props = {
   children: ReactNode;
-}
+};
 
-const DashBoardLayout = ({ children }: DashBoardLayoutProps) => {
+export default function DashBoardLayout({ children }: Props) {
   return (
-    <div>
+    <div className="min-h-screen flex flex-col bg-gray-50">
       <Header />
-      <main className="flex-grow m-auto p-4 container">{children}</main>
+      <main className="flex-1 px-6 py-8">
+        <div className="w-3/4 mx-auto">{children}</div>
+      </main>
       <Footer />
     </div>
   );
-};
-
-export default DashBoardLayout;
+}
