@@ -2,7 +2,7 @@ import { useGlobalContext } from '../common/GlobalContext';
 import { translate } from '../common/translate/translate';
 
 const Footer = () => {
-  const { language } = useGlobalContext();
+  const {  } = useGlobalContext();
   return (
     <footer className="bg-white text-gray-600 p-4 text-center">
       <div className="flex justify-center space-x-8 mb-4">
