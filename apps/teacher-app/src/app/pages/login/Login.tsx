@@ -1,89 +1,92 @@
-import { BookOpen, FacebookLogo, GoogleLogo } from 'phosphor-react';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useGlobalContext } from '../../components/common/GlobalContext';
-import { translate } from '../../components/common/translate/translate';
-
+import { Eye, EyeSlash } from 'phosphor-react';
 const Login = () => {
-  const { language } = useGlobalContext();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   const handleLogin = () => {
-    // Giả lập đăng nhập thành công
     if (username && password) {
-      navigate('/'); // Điều hướng về trang chủ sau khi đăng nhập
+      navigate('/');
     }
   };
 
   return (
-    <div
-      className="min-h-screen flex items-center justify-center bg-cover bg-center"
-      style={{
-        backgroundImage:
-          'url(https://placehold.co/1200x800?text=Background+Image)',
-      }}
-    >
-      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
-        {/* Logo */}
-        <div className="flex justify-center mb-6">
-          <h1 className="text-3xl font-bold text-blue-600 flex items-center">
-            <BookOpen size={32} /> E-Learning
-          </h1>
+    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+      <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-xl">
+      {/* Logo */}
+        <div className="flex flex-col items-center mb-6">
+          <img
+            src="../../../../public/logo.png"
+            alt="E-Learning Logo"
+            className="h-28 mb-2"
+          />
+          <h1 className="text-2xl font-semibold text-gray-700">Đăng nhập</h1>
         </div>
 
         {/* Form */}
         <div className="space-y-4">
-          <div className="form-control">
+          <input
+            type="text"
+            placeholder="Email hoặc tên đăng nhập"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            className="input input-bordered w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <div className="relative">
             <input
-              type="text"
-              placeholder="Email..."
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              className="input input-bordered w-full"
-            />
-          </div>
-          <div className="form-control">
-            <input
-              type="password"
-              placeholder={translate('PASSWORD')}
+              type={showPassword ? 'text' : 'password'}
+              placeholder="Mật khẩu"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="input input-bordered w-full"
+              className="input input-bordered w-full rounded-lg border border-gray-300 px-4 py-2 pr-10 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
+            <span
+              className="absolute inset-y-0 right-3 flex items-center cursor-pointer text-gray-500"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? <EyeSlash size={20} /> : <Eye size={20} />}
+            </span>
           </div>
-          <button onClick={handleLogin} className="btn btn-primary w-full">
-            {translate('LOGIN')}
+
+          <div className="flex justify-end">
+            <Link to="/forgot-password" className="text-sm text-blue-600 hover:underline">
+              Quên mật khẩu?
+            </Link>
+          </div>
+
+          <button
+            onClick={handleLogin}
+            className="bg-green-500 hover:bg-green-600 text-white w-full py-2 rounded-full font-semibold transition duration-200"
+          >
+            Đăng nhập
           </button>
         </div>
 
         {/* Divider */}
-        <div className="divider my-6">{language == 'vi' ? 'Hoặc' : 'Or'}</div>
+        <div className="text-center my-4 text-gray-400">Hoặc đăng nhập bằng</div>
 
-        {/* Social Login Buttons */}
-        <div className="space-y-3">
-          <button className="btn btn-outline w-full flex items-center justify-center">
-            <GoogleLogo size={24} weight="bold" />
-            {translate('LOGIN_WITH_GOOGLE')}
+        {/* Social login */}
+        <div className="flex flex-col md:flex-row gap-4 justify-center">
+          <button className="btn btn-outline w-full md:w-[240px] flex items-center justify-center gap-2">
+            <img src="../../../../public/icons/ic_google.png" alt="Google" className="w-8 h-8" />
+            <span>Đăng nhập với Google</span>
           </button>
-          <button className="btn btn-outline w-full flex items-center justify-center">
-            <FacebookLogo size={24} weight="bold" />
-            {translate('LOGIN_WITH_FACEBOOK')}
+          <button className="btn btn-outline w-full md:w-[240px] flex items-center justify-center gap-2">
+            <img src="../../../../public/icons/ic_fb.png" alt="Facebook" className="w-8 h-8" />
+            <span>Đăng nhập với Facebook</span>
           </button>
         </div>
 
-        {/* Register Link */}
-        <div className="text-center mt-4">
-          <p>
-            {language == 'vi'
-              ? 'Bạn chưa có tài khoản'
-              : "Don't have an account"}
-            ?{' '}
-            <Link to="/register" className="text-blue-600 hover:underline">
-              {language == 'vi' ? 'Đăng ký ngay' : 'Sign up now'}
-            </Link>
-          </p>
+
+        {/* Register */}
+        <div className="text-center text-sm text-gray-500 mt-6">
+          Chưa có tài khoản?{' '}
+          <Link to="/register" className="text-blue-600 hover:underline">
+            Đăng ký ngay
+          </Link>
         </div>
       </div>
     </div>
