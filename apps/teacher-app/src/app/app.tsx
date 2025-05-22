@@ -3,12 +3,14 @@ import Login from './pages/login/Login';
 import DashBoard from './pages/dashboard/DashBoard';
 import DashBoardLayout from './components/layout/DashBoardLayout';
 import UserManagement from './pages/user-management/UserManagement';
+import ForgotPassword from './pages/login/ForgotPassword';
 
 export function App() {
   return (
     <div>
       <Routes>
         <Route path="/login" element={<Login />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route
           path="/"
           element={
