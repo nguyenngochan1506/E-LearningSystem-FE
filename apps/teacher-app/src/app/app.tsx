@@ -3,7 +3,7 @@ import Login from './pages/login/Login';
 import DashBoard from './pages/dashboard/DashBoard';
 import DashBoardLayout from './components/layout/DashBoardLayout';
 import UserManagement from './pages/user-management/UserManagement';
-
+import GradeAssignment from './pages/grade-assignment/GradeAssignment';
 export function App() {
   return (
     <div>
