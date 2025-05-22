@@ -152,8 +152,6 @@ importers:
 
   apps/teacher-app: {}
 
-  libs/translate: {}
-
 packages:
 
   '@alloc/quick-lru@5.2.0':
