@@ -6,7 +6,7 @@ import DashBoard from './pages/dashboard/DashBoard';
 import UserManagement from './pages/user-management/UserManagement';
 import CreateCourse from './pages/course/create_course';
 import CourseForm from './pages/course/CourseForm';
-
+import GradeAssignment from './pages/grade-assignment/GradeAssignment';
 export function App() {
   return (
     <Routes>
