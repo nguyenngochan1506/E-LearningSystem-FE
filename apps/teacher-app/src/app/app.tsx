@@ -5,6 +5,7 @@ import DashBoardLayout from './components/layout/DashBoardLayout';
 import DashBoard from './pages/dashboard/DashBoard';
 import UserManagement from './pages/user-management/UserManagement';
 import CreateCourse from './pages/course/create_course';
+
 import CourseForm from './pages/course/CourseForm';
 import GradeAssignment from './pages/grade-assignment/GradeAssignment';
 export function App() {
@@ -25,5 +26,8 @@ export function App() {
     </Routes>
   );
 }
-
+export async function createCourseAPI(course: any) {
+  console.log('Mock creating course:', course);
+  return { success: true, data: course };
+}
 export default App;

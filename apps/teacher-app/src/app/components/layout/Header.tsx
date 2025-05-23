@@ -1,12 +1,20 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useGlobalContext } from '../common/GlobalContext';
 import { LanguageFlag, LanguageList } from '../../types/LanguageType';
 import { translate } from '../common/translate/translate';
 import SideBar from './SideBar';
+import { UserCircle } from 'phosphor-react';
 
 const Header = () => {
-  const { language, changeLanguage } = useGlobalContext();
-  console.log('language', language);
+  const { language, changeLanguage, isLogin, setIsLogin } = useGlobalContext();
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    setIsLogin(false);
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+    localStorage.removeItem('userId');
+    navigate('/login');
+  };
 
   return (
     <header className="bg-blue-900 text-white p-2 flex items-center justify-between sticky top-0 z-50 text-lg px-8">
@@ -19,26 +27,31 @@ const Header = () => {
         </div>
       </div>
       <div className="flex items-center space-x-2 text-black">
-        {/* <Link to="/profile" className="bg-gray-300 p-2 rounded-full">
-          <svg
-            className="w-6 h-6"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-            />
-          </svg>
-        </Link> */}
-        <div>
+        {isLogin ? (
+          <div className="dropdown dropdown-center">
+            <div
+              tabIndex={0}
+              role="button"
+              className="btn btn-ghost m-1 text-white rounded-full"
+            >
+              <UserCircle size={32} />
+            </div>
+            <ul
+              tabIndex={0}
+              className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm"
+            >
+              <li>
+                <div className="" onClick={handleLogout}>
+                  {translate('LOGOUT')}
+                </div>
+              </li>
+            </ul>
+          </div>
+        ) : (
           <Link to="/login" className="btn btn-primary text-lg">
             {translate('LOGIN')}
           </Link>
-        </div>
+        )}
         <div className="dropdown dropdown-end">
           <div tabIndex={0} role="button" className="btn btn-ghost">
             <img src={LanguageFlag[language]} width={'48px'} alt="icon" />

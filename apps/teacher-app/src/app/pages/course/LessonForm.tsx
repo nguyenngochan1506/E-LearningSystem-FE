@@ -1,22 +1,60 @@
-import { useState } from 'react';
-
+import React, { useState, useRef } from 'react';
+import { Plus, ArrowLeft, BookOpen, FileText, FloppyDisk , X } from 'phosphor-react';
+import { Lesson } from './types';
 interface LessonFormProps {
   onBack: () => void;
-  onSubmit: (lesson: { title: string; videoUrl: string; content: string }) => void;
+  onSubmit: (lesson: Lesson) => void;
 }
 
-export default function LessonForm({ onBack, onSubmit }: LessonFormProps) {
+export function LessonForm({ onBack, onSubmit }: LessonFormProps) {
   const [title, setTitle] = useState('');
-  const [videoUrl, setVideoUrl] = useState('');
+  const [videoFile, setVideoFile] = useState<File | null>(null);
+  const [videoPreview, setVideoPreview] = useState<string | null>(null);
   const [content, setContent] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const videoInputRef = useRef<HTMLInputElement>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleVideoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setVideoFile(file);
+      
+      // Create preview for video (shows first frame if possible)
+      const previewUrl = URL.createObjectURL(file);
+      setVideoPreview(previewUrl);
+    }
+  };
+
+  const removeVideo = () => {
+    setVideoFile(null);
+    setVideoPreview(null);
+    if (videoInputRef.current) {
+      videoInputRef.current.value = '';
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit({ title, videoUrl, content });
+    setIsSubmitting(true);
+    try {
+      // Here you would upload the video file to your server
+      // and get the URL before saving the lesson
+      await new Promise(resolve => setTimeout(resolve, 800)); // Simulate API call
+      
+      // For now, we'll just pass the file object
+      // In a real app, you'd pass the URL returned from your server
+      onSubmit({ 
+        title, 
+        videoUrl: videoFile ? URL.createObjectURL(videoFile) : '', 
+        content 
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleBack = () => {
-    if (title || videoUrl || content) {
+    if (title || videoFile || content) {
       const confirmBack = window.confirm('⚠️ Thông tin bài học chưa được lưu, bạn có chắc muốn quay lại?');
       if (!confirmBack) return;
     }
@@ -24,39 +62,114 @@ export default function LessonForm({ onBack, onSubmit }: LessonFormProps) {
   };
 
   return (
-    <div className="p-6 max-w-2xl mx-auto bg-white rounded shadow">
-      <button onClick={handleBack} className="text-blue-600 underline mb-4">← Quay lại</button>
-      <h2 className="text-xl font-bold mb-4">Thêm bài học mới</h2>
+    <div className="max-w-3xl mx-auto p-6 bg-white rounded-xl shadow-lg border border-gray-100">
+      <button 
+        onClick={handleBack} 
+        className="text-indigo-600 hover:text-indigo-800 font-medium mb-4 flex items-center gap-1 transition"
+      >
+        <ArrowLeft size={18} />
+        Quay lại
+      </button>
+      
+      <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
+        <Plus className="text-emerald-600" size={24} />
+        Thêm bài học mới
+      </h2>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <input
-          type="text"
-          placeholder="Tiêu đề bài học"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          className="w-full p-2 border rounded"
-        />
-        <input
-          type="text"
-          placeholder="Link video"
-          value={videoUrl}
-          onChange={(e) => setVideoUrl(e.target.value)}
-          className="w-full p-2 border rounded"
-        />
-        <textarea
-          placeholder="Nội dung bài học"
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
-          className="w-full p-2 border rounded"
-        />
+      <form onSubmit={handleSubmit} className="space-y-6">
+        <div className="space-y-5">
+          {/* Lesson Title */}
+          <div className="relative">
+            <label htmlFor="lessonTitle" className="block text-sm font-medium text-gray-700 mb-1">
+              Tiêu đề bài học <span className="text-red-500">*</span>
+            </label>
+            <div className="relative">
+              <input
+                id="lessonTitle"
+                type="text"
+                placeholder="Nhập tiêu đề bài học"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition"
+                required
+              />
+              <BookOpen className="absolute left-3 top-3.5 text-gray-400" size={18} />
+            </div>
+          </div>
+
+          {/* Video Upload */}
+          <div>
+            <label htmlFor="video" className="block text-sm font-medium text-gray-700 mb-1">
+              Video bài giảng
+            </label>
+            <div className="space-y-3">
+              {videoPreview ? (
+                <div className="relative">
+                  <div className="w-full h-48 sm:h-64 md:h-80 bg-black rounded-lg flex items-center justify-center">
+                    <video src={videoPreview} controls className="max-h-full max-w-full" />
+                  </div>
+                  <button
+                    type="button"
+                    onClick={removeVideo}
+                    className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full hover:bg-red-600 transition"
+                  >
+                    <X size={16} />
+                  </button>
+                </div>
+              ) : (
+                <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-indigo-400 transition">
+                    <div className="flex flex-col items-center justify-center gap-2">
+                    <video className="text-gray-400" width={48} height={48} />
+                    <p className="text-sm text-gray-500">Kéo thả video vào đây hoặc click để chọn</p>
+                    <input
+                      id="video"
+                      type="file"
+                      ref={videoInputRef}
+                      onChange={handleVideoUpload}
+                      accept="video/mp4,video/mov,video/avi"
+                      className="hidden"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => videoInputRef.current?.click()}
+                      className="mt-2 bg-indigo-50 text-indigo-600 hover:bg-indigo-100 px-4 py-2 rounded-md text-sm font-medium transition"
+                    >
+                      Chọn video
+                    </button>
+                    </div>
+                </div>
+              )}
+              <p className="text-xs text-gray-500">Định dạng hỗ trợ: MP4, MOV, AVI. Kích thước tối đa: 100MB</p>
+            </div>
+          </div>
+
+          {/* Lesson Content */}
+          <div>
+            <label htmlFor="lessonContent" className="block text-sm font-medium text-gray-700 mb-1">
+              Nội dung bài học
+            </label>
+            <div className="relative">
+              <textarea
+                id="lessonContent"
+                placeholder="Nội dung chi tiết bài học..."
+                value={content}
+                onChange={(e) => setContent(e.target.value)}
+                rows={6}
+                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition"
+              />
+              <FileText className="absolute left-3 top-3.5 text-gray-400" size={18} />
+            </div>
+          </div>
+        </div>
 
         <button
           type="submit"
-          className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded shadow"
+          disabled={isSubmitting}
+          className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 flex items-center justify-center gap-2 disabled:opacity-70"
         >
-          Lưu bài học
+          <FloppyDisk  size={18} />
+          {isSubmitting ? 'Đang lưu...' : 'Lưu bài học'}
         </button>
       </form>
     </div>
-  );
-}
+  );}

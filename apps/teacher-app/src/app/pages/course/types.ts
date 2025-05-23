@@ -1,13 +1,16 @@
-export type Course = {
+export interface Lesson {
+  title: string;
+  videoUrl: string | File; 
+  content: string;
+  file?: File;
+}
+
+export interface Course {
   title: string;
   description: string;
-  objectives: string;
-  thumbnail: string;
-  duration: string;
-};
-
-export type Lesson = {
-  title: string;
-  content: string;
-  file: File | null;
-};
+  image: string | File | null; 
+  price: number;
+  category: string;
+  teacherId: number;
+  lessons: Lesson[];
+}
