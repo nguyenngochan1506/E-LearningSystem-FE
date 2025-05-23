@@ -17,8 +17,11 @@ export function App() {
         <Route path="/users" element={<UserManagement />} />
         <Route path="/course/create_course" element={<CreateCourse />} />
         <Route path="/course/form/:courseId" element={<CourseForm />} />
+        <Route
+          path="dashboard/grading/:assignmentId"
+          element={<GradeAssignment />}
+        />
       </Route>
-      <Route path="/grade/:assignmentId" element={<GradeAssignment />} />
     </Routes>
   );
 }
