@@ -1,7 +1,6 @@
-
 import { useState, useEffect, useRef } from 'react';
 import { Plus, BookOpen, Money, List, FileText, FloppyDisk, Upload, X } from 'phosphor-react';
-import { Course } from './types';
+import { Course, Lesson } from './types';
 interface CourseFormProps {
   course: Course;
   onCourseChange: (course: Course) => void;

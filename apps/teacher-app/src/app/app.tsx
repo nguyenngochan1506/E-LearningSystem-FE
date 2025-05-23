@@ -17,7 +17,11 @@ export function App() {
         <Route path="/" element={<DashBoard />} />
         <Route path="/users" element={<UserManagement />} />
         <Route path="/course/create_course" element={<CreateCourse />} />
-        {/* <Route path="/course/form/:courseId" element={<CourseForm />} /> */}
+        <Route path="/course/form/:courseId" element={<CourseForm />} />
+        <Route
+          path="dashboard/grading/:assignmentId"
+          element={<GradeAssignment />}
+        />
       </Route>
     </Routes>
   );
