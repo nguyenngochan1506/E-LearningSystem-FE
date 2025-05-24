@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Envelope, SpinnerGap  } from 'phosphor-react';
+import { sendEmailForgotPassword } from '../../components/common/apis/auth';
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState<string>('');
@@ -15,14 +16,24 @@ const ForgotPassword = () => {
     }
 
   try {
+    const data =  await sendEmailForgotPassword(email);
+    if (data) {
       setIsSent(true);
       setError('');
-      // Giả lập gửi OTP
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-      setIsSent(true);
-      navigate('/verify-otp', { state: { email } });
+      setTimeout(() => {
+        setIsSent(false);
+        alert('Mã xác nhận đã được gửi đến email của bạn');
+      }, 2000);
+    }
+      // setIsSent(true);
+      // setError('');
+      // // Giả lập gửi OTP
+      // await new Promise((resolve) => setTimeout(resolve, 1500));
+      // setIsSent(true);
+      // navigate('/verify-otp', { state: { email } });
     } catch (err) {
-      setError('Email không tồn tại trong hệ thống.');
+      
+      setError(err.message || 'Đã xảy ra lỗi khi gửi mã xác nhận');
       setIsSent(false);
     }
   };

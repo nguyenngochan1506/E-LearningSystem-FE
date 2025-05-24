@@ -8,11 +8,13 @@ import CreateCourse from './pages/course/create_course';
 
 import CourseForm from './pages/course/CourseForm';
 import GradeAssignment from './pages/grade-assignment/GradeAssignment';
+import ResetPassword from './pages/login/ResetPassword';
 export function App() {
   return (
     <Routes>
       <Route path="/login" element={<Login />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
+      <Route path="/reset-password" element={<ResetPassword />} />
       <Route element={<DashBoardLayout children={<Outlet />} />}>
         <Route path="/" element={<DashBoard />} />
         <Route path="/users" element={<UserManagement />} />
