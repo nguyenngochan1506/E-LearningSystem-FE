@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { useGlobalContext } from '../common/GlobalContex';
+import { useGlobalContext } from '../common/GlobalContext';
 import { LanguageFlag, LanguageList } from '../../types/LanguageType';
 import { translate } from '../common/translate/translate';
 

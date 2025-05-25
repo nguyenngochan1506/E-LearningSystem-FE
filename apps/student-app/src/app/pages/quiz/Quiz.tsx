@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { useGlobalContext } from '../../components/common/GlobalContex';
+import { useGlobalContext } from '../../components/common/GlobalContext';
 import { translate } from '../../components/common/translate/translate';
 import { Timer } from 'phosphor-react';
 
