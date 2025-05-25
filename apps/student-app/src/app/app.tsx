@@ -3,6 +3,7 @@ import Home from './pages/home/Home';
 import Header from './components/layout/Header';
 import Login from './pages/login/Login';
 import Quiz from './pages/quiz/Quiz';
+import CourseDetail from './pages/Course/Course-detail';
 
 export function App() {
   return (
@@ -12,6 +13,7 @@ export function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/quiz/:assignmentId" element={<Quiz />} />
+       <Route path="/course/demo" element={<CourseDetail />} />
       </Routes>
     </div>
   );

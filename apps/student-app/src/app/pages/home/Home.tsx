@@ -2,7 +2,7 @@ import { CourseType } from '../../types/CourseType';
 import Slider from '../../components/ui/Slider';
 import SectionCourse from './SectionCourse';
 import Footer from '../../components/layout/Footer';
-import { useGlobalContext } from '../../components/common/GlobalContex';
+import { useGlobalContext } from '../../components/common/GlobalContext';
 import { translate } from '../../components/common/translate/translate';
 
 const courses: CourseType[] = [

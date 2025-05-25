@@ -23,7 +23,7 @@ const Course = ({ course }: CourseProps) => {
           <p>Miễn phí</p>
         )}
         <div className="card-actions justify-end">
-          <Link to={`/course/${course.id}`} className="btn btn-primary">
+          <Link to={`/course/demo`} className="btn btn-primary">
             Xem chi tiết
           </Link>
         </div>
@@ -33,3 +33,4 @@ const Course = ({ course }: CourseProps) => {
 };
 
 export default Course;
+
