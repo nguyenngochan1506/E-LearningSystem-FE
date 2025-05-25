@@ -22,6 +22,10 @@ export const GlobalContextProvider = ({
     if (storedLanguage) {
       setLanguage(storedLanguage);
     }
+    const storedIsLogin = localStorage.getItem('accessToken');
+    if (storedIsLogin) {
+      setIsLogin(storedIsLogin === 'true');
+    }
   }, []);
 
   return (

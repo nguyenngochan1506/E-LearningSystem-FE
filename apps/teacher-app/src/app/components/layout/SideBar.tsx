@@ -1,4 +1,4 @@
-import { House, List, Shield, User } from 'phosphor-react';
+import { House, List, Lock, Shield, User } from 'phosphor-react';
 import { useGlobalContext } from '../common/GlobalContext';
 import { Link } from 'react-router-dom';
 import { translate } from '../common/translate/translate';
@@ -30,6 +30,16 @@ const SideBar = () => {
           <li>
             <Link to="/users">
               <User size={32} /> {translate('USERS')}
+            </Link>
+          </li>
+          <li>
+            <Link to="/auth">
+              <Shield size={32} /> {translate('ROLE_MANAGEMENT')}
+            </Link>
+          </li>
+          <li>
+            <Link to="/permissions">
+              <Lock size={32} /> {translate('PERMISSION_MANAGEMENT')}
             </Link>
           </li>
         </ul>
