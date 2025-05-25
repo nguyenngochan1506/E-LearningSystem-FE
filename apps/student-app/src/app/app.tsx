@@ -4,6 +4,8 @@ import Header from './components/layout/Header';
 import Login from './pages/login/Login';
 import Quiz from './pages/quiz/Quiz';
 import CourseDetail from './pages/Course/Course-detail';
+// import OngoingExams from './pages/Exams/Ongoing-exams'; 
+// import ExamResults from './pages/Exams/Results-exams';
 
 import MyCourses from './pages/Course/My-course';
 export function App() {
@@ -16,6 +18,9 @@ export function App() {
         <Route path="/quiz/:assignmentId" element={<Quiz />} />
        <Route path="/course/demo" element={<CourseDetail />} />
        <Route path="/my-course" element={<MyCourses />} /> 
+        {/* <Route path="/exams/ongoing" element={<OngoingExams />} />
+        <Route path="/exams/results" element={<ExamResults />} /> */}
+
       </Routes>
     </div>
   );
