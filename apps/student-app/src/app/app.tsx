@@ -15,7 +15,7 @@ export function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/quiz/:assignmentId" element={<Quiz />} />
+        <Route path="/exams/:assignmentId" element={<Quiz />} />
         <Route path="/course/demo" element={<CourseDetail />} />
         <Route path="/my-courses" element={<MyCourses />} /> 
         <Route path="/exams/ongoing" element={<OngoingExams />} />

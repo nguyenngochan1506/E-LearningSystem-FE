@@ -30,10 +30,10 @@ interface QuizResult {
 
 // Dữ liệu tĩnh mẫu (thay vì gọi API)
 const sampleAssignment: Assignment = {
-  id: '123',
+  id: '1',
   title: 'Sample Assignment',
   type: 'mixed',
-  deadline: '2025-05-23T23:59:59+07:00', // Hết hạn vào 11:59 PM ngày 23/05/2025
+  deadline: '2025-05-30T23:59:59+07:00', // Hết hạn vào 11:59 PM ngày 23/05/2025
   description: 'Complete the following questions within 5 minutes.',
   questions: [
     {
@@ -278,7 +278,7 @@ const Quiz = () => {
                     {translate('PREVIOUS_QUESTION') || 'Previous Question'}
                   </button>
                   <button
-                    onClick={() => navigate('/my-courses')}
+                    onClick={() => navigate('/exams/ongoing')}
                     className="btn btn-outline text-white"
                   >
                     {translate('SKIP_QUIZ') || 'Skip Quiz'}
@@ -328,7 +328,7 @@ const Quiz = () => {
                 >
                   {translate('RESTART_QUIZ') || 'Restart Quiz'}
                 </button>
-                <Link to="/my-courses" className="btn btn-outline text-white">
+                <Link to="exams/ongoing" className="btn btn-outline text-white">
                   {translate('BACK_TO_COURSES') || 'Back to Courses'}
                 </Link>
               </div>
