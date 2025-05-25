@@ -1,12 +1,13 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Plus, ArrowLeft, BookOpen, FileText, FloppyDisk , X } from 'phosphor-react';
 import { Lesson } from './types';
 interface LessonFormProps {
   onBack: () => void;
   onSubmit: (lesson: Lesson) => void;
+  initialLesson?: Lesson;
 }
 
-export function LessonForm({ onBack, onSubmit }: LessonFormProps) {
+export function LessonForm({ onBack, onSubmit, initialLesson }: LessonFormProps) {
   const [title, setTitle] = useState('');
   const [videoFile, setVideoFile] = useState<File | null>(null);
   const [videoPreview, setVideoPreview] = useState<string | null>(null);
@@ -14,12 +15,18 @@ export function LessonForm({ onBack, onSubmit }: LessonFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const videoInputRef = useRef<HTMLInputElement>(null);
 
+  useEffect(() => {
+    if (initialLesson) {
+      setTitle(initialLesson.title);
+      setVideoPreview(initialLesson.videoUrl || null);
+      setContent(initialLesson.content);
+    }
+  }, [initialLesson]);
+
   const handleVideoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       setVideoFile(file);
-      
-      // Create preview for video (shows first frame if possible)
       const previewUrl = URL.createObjectURL(file);
       setVideoPreview(previewUrl);
     }
@@ -37,22 +44,16 @@ export function LessonForm({ onBack, onSubmit }: LessonFormProps) {
     e.preventDefault();
     setIsSubmitting(true);
     try {
-      // Here you would upload the video file to your server
-      // and get the URL before saving the lesson
-      await new Promise(resolve => setTimeout(resolve, 800)); // Simulate API call
-      
-      // For now, we'll just pass the file object
-      // In a real app, you'd pass the URL returned from your server
+      await new Promise(resolve => setTimeout(resolve, 800));
       onSubmit({ 
         title, 
-        videoUrl: videoFile ? URL.createObjectURL(videoFile) : '', 
+        videoUrl: videoFile ? URL.createObjectURL(videoFile) : videoPreview || '', 
         content 
       });
     } finally {
       setIsSubmitting(false);
     }
   };
-
   const handleBack = () => {
     if (title || videoFile || content) {
       const confirmBack = window.confirm('⚠️ Thông tin bài học chưa được lưu, bạn có chắc muốn quay lại?');
@@ -73,7 +74,7 @@ export function LessonForm({ onBack, onSubmit }: LessonFormProps) {
       
       <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
         <Plus className="text-emerald-600" size={24} />
-        Thêm bài học mới
+        {initialLesson ? 'Chỉnh sửa bài học' : 'Thêm bài học mới'}
       </h2>
 
       <form onSubmit={handleSubmit} className="space-y-6">

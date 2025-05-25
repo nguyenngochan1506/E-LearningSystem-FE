@@ -1,16 +1,20 @@
 import { useState, useEffect, useRef } from 'react';
-import { Plus, BookOpen, Money, List, FileText, FloppyDisk, Upload, X } from 'phosphor-react';
+import { Plus, BookOpen, Money, Pencil , Trash, List, FileText, FloppyDisk, Upload, X } from 'phosphor-react';
 import { Course, Lesson } from './types';
 interface CourseFormProps {
   course: Course;
   onCourseChange: (course: Course) => void;
   onAddLessonClick: () => void;
+  onEditLesson?: (index: number) => void;
+  onDeleteLesson?: (index: number) => void;
 }
 
 export default function CourseForm({
   course,
   onCourseChange,
   onAddLessonClick,
+  onEditLesson,
+  onDeleteLesson,
 }: CourseFormProps) {
   const [localCourse, setLocalCourse] = useState(course);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -30,13 +34,10 @@ export default function CourseForm({
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      // Create preview URL
+
       const previewUrl = URL.createObjectURL(file);
       setImagePreview(previewUrl);
-      
-      // You would typically upload the file to your server here
-      // and then set the returned URL to localCourse.image
-      // For now, we'll just store the file object
+
       handleChange('image', file);
     }
   };
@@ -53,8 +54,7 @@ export default function CourseForm({
     e.preventDefault();
     setIsSubmitting(true);
     try {
-      // Here you would actually upload the files to your server
-      // and get the URLs before saving the course
+
       await new Promise(resolve => setTimeout(resolve, 800)); // Simulate API call
       onCourseChange(localCourse);
       console.log('Submit course data:', localCourse);
@@ -218,20 +218,40 @@ export default function CourseForm({
         </div>
       </form>
 
-      {localCourse.lessons.length > 0 && (
+       {course.lessons.length > 0 && (
         <div className="mt-8 border-t pt-6">
           <h3 className="text-lg font-semibold text-gray-800 mb-3 flex items-center gap-2">
             <List size={20} />
-            Danh sách bài học ({localCourse.lessons.length})
+            Danh sách bài học ({course.lessons.length})
           </h3>
           <ul className="space-y-2">
-            {localCourse.lessons.map((lesson, idx) => (
+            {course.lessons.map((lesson, idx) => (
               <li key={idx} className="bg-gray-50 hover:bg-gray-100 p-3 rounded-lg border border-gray-200 transition">
-                <div className="flex items-center gap-3">
-                  <span className="bg-indigo-100 text-indigo-800 w-6 h-6 rounded-full flex items-center justify-center text-sm font-medium">
-                    {idx + 1}
-                  </span>
-                  <span className="font-medium text-gray-800">{lesson.title}</span>
+                <div className="flex items-center justify-between gap-3">
+                  <div className="flex items-center gap-3">
+                    <span className="bg-indigo-100 text-indigo-800 w-6 h-6 rounded-full flex items-center justify-center text-sm font-medium">
+                      {idx + 1}
+                    </span>
+                    <span className="font-medium text-gray-800">{lesson.title}</span>
+                  </div>
+                  {onEditLesson && onDeleteLesson && (
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => onEditLesson(idx)}
+                        className="btn btn-circle btn-sm btn-outline"
+                        title="Chỉnh sửa"
+                      >
+                        <Pencil size={16} />
+                      </button>
+                      <button
+                        onClick={() => onDeleteLesson(idx)}
+                        className="btn btn-circle btn-sm btn-outline btn-error"
+                        title="Xóa"
+                      >
+                        <Trash size={16} />
+                      </button>
+                    </div>
+                  )}
                 </div>
               </li>
             ))}

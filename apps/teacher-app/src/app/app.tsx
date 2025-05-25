@@ -13,11 +13,11 @@ import PermissionRoot from './pages/permisson-management/PermissionRoot';
 import CourseGradingList from './pages/grading/Course-grading-list';
 import AssignmentList from './pages/grading/Assingnment-list';
 import SubmissionGrading from './pages/grading/Submission-grading';
-import GradeAssignment from './pages/grade-assignment/GradeAssignment';
-
 import CourseAssignmentList from './pages/assignment/Assignment-list';
 import AssignmentCreate from './pages/assignment/Assignment-create';
 import AssignmentEdit from './pages/assignment/Assignment-edit';
+import EditCoursePage from './pages/course/Edit-course';
+import CourseManagement from './pages/course/Course-management';
 export function App() {
   return (
     <Routes>
@@ -33,6 +33,8 @@ export function App() {
         <Route path="/grading/course/:courseId" element={<AssignmentList />} />
         {/* <Route path="/grading/course/:courseId" element={<GradeAssignment />} /> */}
 
+        <Route path="/courses" element={<CourseManagement />} />
+        <Route path="/course/edit/:courseId" element={<EditCoursePage />} />
         <Route path="/grading/course/:courseId/assignment/:assignmentId" element={<SubmissionGrading />} />
         <Route path="/auth" element={<RoleManagement />} />
         <Route path="/permissions" element={<PermissionRoot />} />

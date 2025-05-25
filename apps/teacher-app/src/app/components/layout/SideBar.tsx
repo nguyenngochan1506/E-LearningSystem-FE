@@ -1,4 +1,4 @@
-import { House, List, Lock, Shield, User } from 'phosphor-react';
+import { House, List, Lock, Shield, User, ChartLine  } from 'phosphor-react';
 import { useGlobalContext } from '../common/GlobalContext';
 import { Link } from 'react-router-dom';
 import { translate } from '../common/translate/translate';
@@ -25,6 +25,11 @@ const SideBar = () => {
           <li>
             <Link to="/">
               <House size={32} /> {translate('HOME')}
+            </Link>
+          </li>
+          <li>
+            <Link to="/">
+              <ChartLine size={32} /> {translate('STATISTICS')}
             </Link>
           </li>
           <li>

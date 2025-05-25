@@ -49,6 +49,14 @@ const Translations: Record<string, Record<string, string>> = {
   VIEW_SUBMISSIONS: { vi: 'Xem bài nộp', en: 'View Submissions' },
   SAVE_CHANGES: { vi: 'Lưu thay đổi', en: 'Save Changes' },
   CREATED_AT: { vi: 'Tạo lúc', en: 'Created at' },
+   COURSE_MANAGEMENT: { vi: 'Quản lý khóa học', en: 'Course Management' },
+  COURSE_NAME: { vi: 'Tên khóa học', en: 'Course Name' },
+  CATEGORY: { vi: 'Danh mục', en: 'Category' },
+  PRICE: { vi: 'Giá', en: 'Price' },
+  STUDENTS: { vi: 'Học viên', en: 'Students' },
+  ACTIONS: { vi: 'Thao tác', en: 'Actions' },
+  FREE: { vi: 'Miễn phí', en: 'Free' },
+
 };
 
 export const translate = (key: string) => {

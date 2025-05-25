@@ -42,13 +42,13 @@ const Header = () => {
                 <Books size={20} />
                 Tạo khóa học
               </Link>
-              <Link to="/course/manage_courses" 
+              <Link to="/course/edit/:courseId" 
                 className="flex items-center gap-1 hover:text-blue-200 transition-colors px-2 py-1 rounded"
               >
                 <BookOpen  size={20} />
                 Quản lý khóa học
               </Link>
-              <Link to="/course/course:id/assignment" 
+              <Link to="/courses" 
                 className="flex items-center gap-1 hover:text-blue-200 transition-colors px-2 py-1 rounded"
               >
                 <BookBookmark  size={20} />

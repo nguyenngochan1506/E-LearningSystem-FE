@@ -12,7 +12,7 @@ const actions = [
     iconSrc: '/icons/icon_edit.png',
     title: 'Quản lý khóa học',
     description: 'Chỉnh sửa nội dung khóa học.',
-    href: '/dashboard/my-courses',
+    href: '/course/edit/:courseId',
     bgColor: 'bg-gradient-to-br from-green-100 to-green-200',
   },
   {
