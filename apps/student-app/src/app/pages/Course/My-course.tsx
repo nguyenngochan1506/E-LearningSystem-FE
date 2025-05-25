@@ -61,11 +61,16 @@ export default function MyCourses() {
   ];
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      {/* Page Header */}
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">Khóa học của tôi</h1>
-        <p className="text-gray-600 mt-2">Tiếp tục học tập và khám phá các khóa học bạn đã đăng ký</p>
+     <div className="bg-gray-50 min-h-screen w-full">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="mb-8 flex flex-col items-center">
+        <div className="flex items-center gap-3">
+          <img src="/logo.png" alt="Logo" className="h-11 w-11" />
+          <h1 className="text-4xl font-bold text-gray-900 text-center">Khóa học của tôi</h1>
+        </div>
+        <p className="text-gray-600 mt-2 text-center">
+          Tiếp tục học tập và khám phá các khóa học bạn đã đăng ký
+        </p>
       </div>
 
       {/* Filters and Controls */}
@@ -269,6 +274,7 @@ export default function MyCourses() {
             </div>
           </div>
         </div>
+      </div>
       </div>
     </div>
   );

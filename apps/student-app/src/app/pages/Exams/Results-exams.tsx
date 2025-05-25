@@ -1,11 +1,5 @@
 // pages/exams/results.tsx
-import { 
-  CheckCircle,
-  ChartBar,
-  Clock,
-  Calendar,
-  Star
-} from 'phosphor-react';
+import { CheckCircle, ChartBar, Clock, Calendar } from 'phosphor-react';
 
 export default function ExamResults() {
   const completedExams = [
@@ -57,15 +51,21 @@ export default function ExamResults() {
   ];
 
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
-          <ChartBar size={32} className="text-green-600" />
+    <div className="bg-gray-50 min-h-screen w-full">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      {/* Page Header */}
+      <div className="mb-8 flex flex-col items-center">
+        <div className="flex items-center gap-3">
+          <img src="/logo.png" alt="Logo" className="h-11 w-11" />
+          <h1 className="text-4xl font-bold text-gray-900 text-center">
           Kết quả bài kiểm tra
-        </h1>
-        <p className="text-gray-600 mt-2">Danh sách các bài kiểm tra bạn đã hoàn thành và kết quả chi tiết</p>
+          </h1>
+        </div>
+        <p className="text-gray-600 mt-2 text-center">
+         Danh sách các bài kiểm tra bạn đã hoàn thành và kết quả chi tiết
+        </p>
       </div>
-
+    
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {completedExams.map((exam) => (
           <div 
@@ -133,6 +133,7 @@ export default function ExamResults() {
             </div>
           </div>
         ))}
+      </div>
       </div>
     </div>
   );
