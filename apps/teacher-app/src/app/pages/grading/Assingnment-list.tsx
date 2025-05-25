@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { FileText, Clock, CheckCircle, ArrowLeft } from 'phosphor-react';
+import { FileText, Clock, CheckCircle, Plus , ArrowLeft } from 'phosphor-react';
 import { useGlobalContext } from '../../components/common/GlobalContext';
 import { translate } from '../../components/common/translate/translate';
 interface Assignment {
@@ -76,7 +76,17 @@ const AssignmentList = () => {
         <h1 className="text-2xl font-bold text-gray-800">
           {courseTitle}
         </h1>
+        <div className="ml-auto">
+        <Link
+          to={`/courses/${courseId}/assignments/create`}
+          className="btn btn-primary"
+        >
+          <Plus size={16} className="mr-2" />
+          {translate('CREATE_ASSIGNMENT') || 'Tạo bài tập mới'}
+        </Link>
       </div>
+      </div>
+  
 
       <div className="overflow-x-auto">
         <table className="table w-full">
