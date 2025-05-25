@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Eye, EyeSlash } from 'phosphor-react';
-import { login } from '../../components/common/apis/auth';
+import { getMeAPI, login } from '../../components/common/apis/auth';
 import { useGlobalContext } from '../../components/common/GlobalContext';
+import { UserType } from '../../types/UserType';
 const Login = () => {
-  const { isLogin, setIsLogin } = useGlobalContext();
+  const { isLogin, setIsLogin, setUser } = useGlobalContext();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -21,8 +22,20 @@ const Login = () => {
         setIsLogin(true);
         localStorage.setItem('accessToken', data.accessToken);
         localStorage.setItem('refreshToken', data.refreshToken);
-        localStorage.setItem('userId', data.userId);
-
+        const responseUser = await getMeAPI();
+        if (responseUser) {
+          const user:UserType = {
+            id: responseUser.id,
+            fullName: responseUser.fullName,
+            email: responseUser.email,
+            phone: responseUser.phone,
+            dateOfBirth: responseUser.dateOfBirth,
+            gender: responseUser.gender,
+            roles: responseUser.roles.map((role: any) => role.name),         
+          }
+          localStorage.setItem('user', JSON.stringify(user));
+          setUser(user);
+        }
         navigate('/');
       }
     } catch (error: any) {

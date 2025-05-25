@@ -23,7 +23,8 @@ interface InputProps {
     | 'radio'
     | 'button'
     | 'submit'
-    | 'reset';
+    | 'reset'
+    | 'select';
   name: string;
   value?: string | number;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;

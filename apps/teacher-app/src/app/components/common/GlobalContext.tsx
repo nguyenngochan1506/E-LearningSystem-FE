@@ -1,11 +1,14 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { LanguageType } from '../../types/LanguageType';
 
+import { UserType } from '../../types/UserType'; 
 export interface GlobalType {
   language: LanguageType;
   setLanguage: (language: LanguageType) => void;
   isLogin: boolean;
   setIsLogin: (isLogin: boolean) => void;
+  user: UserType | null;
+  setUser: (user: UserType) => void;
 }
 
 export const GlobalContext = createContext<GlobalType | undefined>(undefined);
@@ -16,6 +19,7 @@ export const GlobalContextProvider = ({
 }) => {
   const [language, setLanguage] = useState<LanguageType>('vi');
   const [isLogin, setIsLogin] = useState<boolean>(false);
+  const [user, setUser] = useState<UserType | null>(null);
 
   useEffect(() => {
     const storedLanguage = localStorage.getItem('language') as LanguageType;
@@ -24,7 +28,18 @@ export const GlobalContextProvider = ({
     }
     const storedIsLogin = localStorage.getItem('accessToken');
     if (storedIsLogin) {
-      setIsLogin(storedIsLogin === 'true');
+      setIsLogin(true);
+      const storedUser = localStorage.getItem('user');
+      if (storedUser) {
+        console.log('Stored user data found:', storedUser);
+        
+        try {
+          setUser(JSON.parse(storedUser) as UserType);
+        } catch (error) {
+          console.error('Failed to parse user data from localStorage', error);
+          setUser(null);
+        }
+      }
     }
   }, []);
 
@@ -35,6 +50,8 @@ export const GlobalContextProvider = ({
         setLanguage,
         isLogin,
         setIsLogin,
+        user,
+        setUser
       }}
     >
       {children}

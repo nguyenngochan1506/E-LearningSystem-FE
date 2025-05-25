@@ -218,3 +218,73 @@ export async function deletePermissionAPI(id: number) {
   return { success: true };
 }
 
+export async function getMeAPI() {
+  const accessToken = localStorage.getItem('accessToken');
+  if (!accessToken) {
+    throw new Error('Access token is missing');
+  }
+
+  const response = await fetch(`${API_URL}/auth/me`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Accept-Language': LANGUAGE || 'en',
+      'Authorization': `Bearer ${accessToken}`,
+    },
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.message || 'Failed to fetch user data');
+  }
+
+  const data = await response.json();
+  
+  return data.data; // Trả về dữ liệu người dùng
+}
+
+export async function getListUserAPI() {
+  const accessToken = localStorage.getItem('accessToken');
+  
+  if (!accessToken) {
+    throw new Error('Access token is missing');
+  }
+  const response = await fetch(`${API_URL}/v1/users?pageNo=1&pageSize=100`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Accept-Language': LANGUAGE || 'en',
+      'Authorization': `Bearer ${accessToken}`,
+    },
+  });
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.message || 'Failed to fetch user list');
+  }
+  const data = await response.json();
+  return data.data.users; // Trả về danh sách người dùng
+}
+export async function getUserByIdAPI(id: number) {
+  const accessToken = localStorage.getItem('accessToken');
+  
+  if (!accessToken) {
+    throw new Error('Access token is missing');
+  }
+  const response = await fetch(`${API_URL}/v1/users/${id}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Accept-Language': LANGUAGE || 'en',
+      'Authorization': `Bearer ${accessToken}`,
+    },
+  });
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.message || 'Failed to fetch user by ID');
+  }
+  const data = await response.json();
+  return data.data; // Trả về thông tin người dùng
+}

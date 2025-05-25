@@ -1,39 +1,36 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import AddUserModal from './AddUserModal';
 import { translate } from '../../components/common/translate/translate';
 import { useGlobalContext } from '../../components/common/GlobalContext';
 import EditUserModal from './EditUserModal';
 import { PencilSimple, Trash } from 'phosphor-react';
+import { getListUserAPI } from '../../components/common/apis/auth';
 
-const initialUsers = [
-  {
-    id: 1,
-    name: 'Nguyễn Văn A',
-    email: 'nva@example.com',
-    role: 'Admin',
-    createdAt: '2023-10-01',
-  },
-  {
-    id: 2,
-    name: 'Trần Thị B',
-    email: 'ttb@example.com',
-    role: 'User',
-    createdAt: '2023-10-02',
-  },
-  {
-    id: 3,
-    name: 'Lê Văn C',
-    email: 'lvc@example.com',
-    role: 'Editor',
-    createdAt: '2023-10-03',
-  },
-];
 
 const UserManagement = () => {
-  const [users, setUsers] = useState(initialUsers);
-  const [selectedUser, setSelectedUser] = useState<any>(null); // Thêm trạng thái để lưu user được chọn
+  const [users, setUsers] = useState([]);
+  const [selectedUser, setSelectedUser] = useState<any>(null);
   const { language } = useGlobalContext();
 
+  const fetchUsers = async () => {
+    const data = await getListUserAPI();
+    if(data){
+      setUsers(data.map((user: any) => ({
+        id: user.id,
+        name: user.fullName,
+        email: user.email,
+        role: user.role,
+        createdAt: new Date(user.createdAt).toLocaleDateString(language, {
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit',
+        }),
+      })));
+    }
+  }
+  useEffect(() => {
+    fetchUsers();
+  }, [language]);
   // Hàm xử lý xóa người dùng
   const handleDelete = (id: number) => {
     setUsers(users.filter((user) => user.id !== id));

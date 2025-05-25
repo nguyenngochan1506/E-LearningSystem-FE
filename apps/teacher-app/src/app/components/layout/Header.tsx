@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useGlobalContext } from '../common/GlobalContext';
 import { LanguageFlag, LanguageList } from '../../types/LanguageType';
 import { translate } from '../common/translate/translate';
@@ -7,10 +7,18 @@ import SideBar from './SideBar';
 import {  MagnifyingGlass, UserCircle, CaretCircleDown, CaretCircleUp, House, Books, BookOpen, BookBookmark, NotePencil  } from 'phosphor-react';
 
 const Header = () => {
-  const { language, changeLanguage } = useGlobalContext();
+  const { language, changeLanguage, isLogin, setIsLogin } = useGlobalContext();
   const [isLibraryOpen, setIsLibraryOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
+  const navigate = useNavigate();
+ const handleLogout = () => {
+    setIsLogin(false);
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+    localStorage.removeItem('userId');
+    localStorage.removeItem('user');
+    navigate('/login');
+  };
   return (
     <header className="bg-blue-900 text-white sticky top-0 z-50 shadow-md">
       <div className="container mx-auto px-4 py-3">
@@ -79,13 +87,34 @@ const Header = () => {
             </div>
 
             {/* Login Button */}
-            <Link 
+            {isLogin 
+            ?<div className="dropdown dropdown-center">
+            <div
+              tabIndex={0}
+              role="button"
+              className="btn btn-ghost m-1 text-white rounded-full"
+            >
+              <UserCircle size={32} />
+            </div>
+            <ul
+              tabIndex={0}
+              className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm"
+            >
+              <li>
+                <div className="text-black" onClick={handleLogout}>
+                  {translate('LOGOUT')}
+                </div>
+              </li>
+            </ul>
+          </div>
+              :<Link 
               to="/login" 
               className="hidden sm:flex items-center gap-2 bg-white text-blue-900 hover:bg-blue-100 px-4 py-2 rounded-full font-medium transition-colors shadow-sm"
             >
               <UserCircle size={20} />
               {translate('LOGIN')}
             </Link>
+          }
 
             {/* Language Selector */}
             <div className="dropdown dropdown-end">
