@@ -54,7 +54,7 @@ const Header = () => {
                 <BookBookmark  size={20} />
                 Giao bài tập
               </Link>
-              <Link to="/course/grading" 
+              <Link to="/grading" 
                 className="flex items-center gap-1 hover:text-blue-200 transition-colors px-2 py-1 rounded"
               >
                 <NotePencil   size={20} />
