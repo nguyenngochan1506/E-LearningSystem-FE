@@ -19,7 +19,7 @@ const actions = [
     iconSrc: '/icons/fileText.png',
     title: 'Giao bài tập',
     description: 'Tạo bài tập cho học viên.',
-    href: '/dashboard/assignments',
+    href: '/courses/:courseId/assignments',
     bgColor: 'bg-gradient-to-br from-yellow-100 to-yellow-200',
   },
   {

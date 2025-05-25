@@ -15,9 +15,7 @@ import PermissionRoot from './pages/permisson-management/PermissionRoot';
 import CourseGradingList from './pages/grading/Course-grading-list';
 import AssignmentList from './pages/grading/Assingnment-list';
 import SubmissionGrading from './pages/grading/Submission-grading';
-import GradeAssignment from './pages/grade-assignment/GradeAssignment';
 import { ProtectedRoute } from './routers/ProtectedRoute';
-
 export function App() {
   return (
     <Routes>
@@ -64,14 +62,7 @@ export function App() {
             </ProtectedRoute>
           }
         />
-        <Route
-          path="dashboard/grading/:assignmentId"
-          element={
-            <ProtectedRoute allowedRoles={['admin', 'teacher']}>
-              <GradeAssignment />
-            </ProtectedRoute>
-          }
-        />
+       
         <Route
           path="/auth"
           element={
