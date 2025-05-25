@@ -3,17 +3,7 @@ import { Link } from 'react-router-dom';
 import { useGlobalContext } from '../common/GlobalContext';
 import { LanguageFlag, LanguageList } from '../../types/LanguageType';
 import { translate } from '../common/translate/translate';
-import { 
-  BookOpen,
-  Exam,
-  ChartBar,
-  MagnifyingGlass,
-  UserCircle,
-  CaretCircleDown,
-  CaretCircleUp,
-  House,
-  Books,
-  ChatsCircle
+import { BookOpen, Exam, ChartBar, MagnifyingGlass, UserCircle, CaretCircleDown, CaretCircleUp, House, Books, ChatsCircle
 } from 'phosphor-react';
 
 const Header = () => {
@@ -34,16 +24,14 @@ const Header = () => {
 
             {/* Desktop Navigation */}
             <nav className="hidden lg:flex items-center gap-6">
-              <Link 
-                to="/" 
+              <Link to="/" 
                 className="flex items-center gap-1 hover:text-blue-200 transition-colors px-2 py-1 rounded"
               >
                 <House size={20} />
                 {translate('HOME_PAGE')}
               </Link>
               
-              <Link 
-                to="/my-courses" 
+              <Link to="/my-courses" 
                 className="flex items-center gap-1 hover:text-blue-200 transition-colors px-2 py-1 rounded"
               >
                 <Books size={20} />
