@@ -5,6 +5,7 @@ import Login from './pages/login/Login';
 import Quiz from './pages/quiz/Quiz';
 import CourseDetail from './pages/Course/Course-detail';
 
+import MyCourses from './pages/Course/My-course';
 export function App() {
   return (
     <div>
@@ -14,6 +15,7 @@ export function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/quiz/:assignmentId" element={<Quiz />} />
        <Route path="/course/demo" element={<CourseDetail />} />
+       <Route path="/my-course" element={<MyCourses />} /> 
       </Routes>
     </div>
   );
