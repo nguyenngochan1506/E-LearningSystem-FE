@@ -3,7 +3,7 @@ import AddUserModal from './AddUserModal';
 import { translate } from '../../components/common/translate/translate';
 import { useGlobalContext } from '../../components/common/GlobalContext';
 import EditUserModal from './EditUserModal';
-import { PencilSimple } from 'phosphor-react';
+import { PencilSimple, Trash } from 'phosphor-react';
 
 const initialUsers = [
   {
@@ -80,7 +80,7 @@ const UserManagement = () => {
                 <td>{u.createdAt}</td>
                 <td>
                   <button
-                    className="btn btn-info btn-sm"
+                    className="btn btn-ghost btn-sm"
                     onClick={() => {
                       setSelectedUser(u); // Lưu user được chọn
                       const modal = document.getElementById(
@@ -91,12 +91,14 @@ const UserManagement = () => {
                       }
                     }}
                   >
+                     <PencilSimple size={20} />
                     {translate('EDIT')}
                   </button>
                   <button
-                    className="btn btn-error btn-sm ml-2"
+                    className="btn btn-ghost btn-sm ml-2"
                     onClick={() => handleDelete(u.id)} // Sửa lỗi: dùng u.id thay vì user.id
                   >
+                    <Trash size={20} />
                     {translate('DELETE')}
                   </button>
                 </td>

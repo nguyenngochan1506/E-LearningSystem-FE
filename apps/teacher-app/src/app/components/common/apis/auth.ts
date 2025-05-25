@@ -71,16 +71,57 @@ export const resetPassword = async (secretKey: string, newPassword: string) => {
     return data; // Trả về dữ liệu nếu cần
 }
 
-export async function createRoleAPI(role: Omit<Role, 'id' | 'createdAt'>) {
-  console.log('Mock creating role:', role);
-  return {
-    success: true,
-    data: {
-      id: Math.floor(Math.random() * 1000),
-      ...role,
-      createdAt: new Date().toISOString(),
+export async function createRoleAPI(role: Omit<Role, 'id' | 'createdAt' | 'permissions'> & { permissions?: number[] }) {
+  const accessToken = localStorage.getItem('accessToken');
+  if (!accessToken) {
+    throw new Error('Access token is missing');
+  }
+  const { name, description, permissions } = role;
+  const responseRoles = await fetch(`${API_URL}/v1/roles`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Accept-Language': LANGUAGE || 'en',
+      'Authorization': `Bearer ${accessToken}`,
     },
-  };
+    body: JSON.stringify({ name, description }),
+  });
+  const dataRoles = await responseRoles.json();
+  if (!responseRoles.ok) {
+    throw new Error(dataRoles.message || 'Failed to create role');
+  }
+  const roleId = dataRoles.data;
+  if(roleId && permissions && permissions.length > 0) {
+    const response = await assignPermissionsToRoleAPI(roleId, permissions);
+    return response;
+  }
+  return null;
+}
+export async function assignPermissionsToRoleAPI(roleId: number, permissions: number[]) {
+  const accessToken = localStorage.getItem('accessToken');
+  if (!accessToken) {
+    throw new Error('Access token is missing');
+  }
+  const response = await fetch(`${API_URL}/v1/roles/assign-permission`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Accept-Language': LANGUAGE || 'en',
+      'Authorization': `Bearer ${accessToken}`,
+    },
+    body: JSON.stringify({ 
+      roleId,
+      permissionIds: permissions, // Mảng ID của permissions
+     }),
+  });
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.message || 'Failed to assign permissions to role');
+  }
+  const data = await response.json();
+  return data.data; // Trả về dữ liệu của role đã được cập nhật
 }
 
 export async function updateRoleAPI(role: Role) {
@@ -90,6 +131,28 @@ export async function updateRoleAPI(role: Role) {
     data: role,
   };
 }
+
+export async function getRolesAPI(): Promise<Role[]> {
+  const accessToken = localStorage.getItem('accessToken');
+  if (!accessToken) {
+    throw new Error('Access token is missing');
+  }
+
+  const response = await fetch(`${API_URL}/v1/roles?pageNo=1&pageSize=100`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Accept-Language': LANGUAGE || 'en',
+      'Authorization': `Bearer ${accessToken}`,
+    },
+  });
+  
+  const data = await response.json();
+  
+  return data.data.roles;
+}
+
 
 export async function deleteRoleAPI(id: number) {
   console.log('Mock deleting role:', id);

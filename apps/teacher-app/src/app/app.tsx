@@ -9,9 +9,8 @@ import CreateCourse from './pages/course/create_course';
 import CourseForm from './pages/course/CourseForm';
 import GradeAssignment from './pages/grade-assignment/GradeAssignment';
 import ResetPassword from './pages/login/ResetPassword';
-import RoleManagement from './pages/roles-management/RoleManagement';
-import PermissionManagement from './pages/permisson-management/PermissionManagement';
 import PermissionRoot from './pages/permisson-management/PermissionRoot';
+import RoleRoot from './pages/roles-management/RoleRoot';
 export function App() {
   return (
     <Routes>
@@ -27,7 +26,7 @@ export function App() {
           path="dashboard/grading/:assignmentId"
           element={<GradeAssignment />}
         />
-         <Route path='/auth' element={<RoleManagement/>} />
+         <Route path='/auth' element={<RoleRoot/>} />
         <Route path="/permissions" element={<PermissionRoot/>} />
       </Route>
       <Route path="*" element={<div>404 Not Found</div>} />

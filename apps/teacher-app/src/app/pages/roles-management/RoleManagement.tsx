@@ -1,9 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { translate } from '../../components/common/translate/translate';
 import { useGlobalContext } from '../../components/common/GlobalContext';
 import AddRoleModal from './AddRoleModal';
 import EditRoleModal from './EditRoleModal';
 import { PencilSimple, Trash } from 'phosphor-react';
+import { useRoleManagementContext } from './RoleManagementContext';
+import { getRolesAPI } from '../../components/common/apis/auth';
 
 export interface Role {
   id: number;
@@ -21,43 +23,31 @@ export interface Permission {
   description: string;
 }
 
-const initialRoles: Role[] = [
-  {
-    id: 1, name: 'Admin', description: 'Full access to all modules', createdAt: '2023-10-01',
-    permissions: [
-      { id: 1, method: 'GET', path: '/api/users', module: 'User', description: 'View all users' },
-      { id: 2, method: 'POST', path: '/api/users', module: 'User', description: 'Create user' },
-        { id: 3, method: 'POST', path: '/api/courses', module: 'Course', description: 'Create course' },
-        { id: 4, method: 'GET', path: '/api/courses', module: 'Course', description: 'View courses' },
-        // Add more permissions as needed
-        { id: 5, method: 'DELETE', path: '/api/users', module: 'User', description: 'Delete user' },
-        { id: 6, method: 'PUT', path: '/api/users', module: 'User', description: 'Update user' },
-        { id: 7, method: 'GET', path: '/api/assignments', module: 'Assignment', description: 'View assignments' },
-        { id: 8, method: 'POST', path: '/api/assignments', module: 'Assignment', description: 'Create assignment' },
-    ],
-  },
-  {
-    id: 2, name: 'Teacher', description: 'Manage courses and assignments', createdAt: '2023-10-02',
-    permissions: [
-      { id: 3, method: 'POST', path: '/api/courses', module: 'Course Management', description: 'Create course' },
-    ],
-  },
-  {
-    id: 3, name: 'Student', description: 'Access courses and submit assignments', createdAt: '2023-10-03',
-    permissions: [
-      { id: 4, method: 'GET', path: '/api/courses', module: 'Course Management', description: 'View courses' },
-    ],
-  },
-];
 
 const RoleManagement = () => {
-  const [roles, setRoles] = useState<Role[]>(initialRoles);
   const [selectedRole, setSelectedRole] = useState<Role | null>(null);
   const { language } = useGlobalContext();
+  const {roles, setRoles} = useRoleManagementContext();
+
+ 
 
   const handleDelete = (id: number) => {
     setRoles(roles.filter((role) => role.id !== id));
   };
+
+  const fetchRoles = async () => {
+      // Simulate fetching roles
+      const fetchedRoles: Role[] = await getRolesAPI();
+      setRoles(fetchedRoles);
+    };
+
+  useEffect(() => {
+    // Fetch roles from API or context
+    fetchRoles();
+    
+  }, [setRoles]);
+
+
 
   return (
     <div className="p-6 max-w-7xl mx-auto">

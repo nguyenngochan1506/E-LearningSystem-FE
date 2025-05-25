@@ -1,97 +1,49 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { translate } from '../../components/common/translate/translate';
 import Modal from '../../components/layout/Modal';
 import Input from '../../components/ui/Input';
 import { Permission } from './RoleManagement';
+import { createRoleAPI, getPermissionsAPI } from '../../components/common/apis/auth';
+import { useRoleManagementContext } from './RoleManagementContext';
 
-const availablePermissions: Permission[] = [
-  {
-    id: 1,
-    method: 'GET',
-    path: '/api/users',
-    module: 'User',
-    description: 'View all users',
-  },
-  {
-    id: 2,
-    method: 'POST',
-    path: '/api/users',
-    module: 'User',
-    description: 'Create user',
-  },
-  {
-    id: 3,
-    method: 'POST',
-    path: '/api/courses',
-    module: 'Course',
-    description: 'Create course',
-  },
-  {
-    id: 4,
-    method: 'GET',
-    path: '/api/courses',
-    module: 'Course',
-    description: 'View courses',
-  },
-  {
-    id: 5,
-    method: 'DELETE',
-    path: '/api/users',
-    module: 'User',
-    description: 'Delete user',
-  },
-  {
-    id: 6,
-    method: 'PUT',
-    path: '/api/users',
-    module: 'User',
-    description: 'Update user',
-  },
-  {
-    id: 7,
-    method: 'GET',
-    path: '/api/assignments',
-    module: 'Assignment',
-    description: 'View assignments',
-  },
-  {
-    id: 8,
-    method: 'POST',
-    path: '/api/assignments',
-    module: 'Assignment',
-    description: 'Create assignment',
-  },
-  {
-    id: 9,
-    method: 'DELETE',
-    path: '/api/assignments',
-    module: 'Assignment',
-    description: 'Delete assignment',
-  },
-  {
-    id: 10,
-    method: 'PUT',
-    path: '/api/assignments',
-    module: 'Assignment',
-    description: 'Update assignment',
-  },
-];
-
-// Group permissions by module for rendering
-const groupPermissionsByModule = (permissions: Permission[]) => {
-  return permissions.reduce((acc, permission) => {
-    if (!acc[permission.module]) {
-      acc[permission.module] = [];
-    }
-    acc[permission.module].push(permission);
-    return acc;
-  }, {} as Record<string, Permission[]>);
-};
+// Định nghĩa kiểu dữ liệu cho permissions theo module
+interface GroupedPermissions {
+  [module: string]: Permission[];
+}
 
 const AddRoleModal = ({ id }: { id: string }) => {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [selectedPermissions, setSelectedPermissions] = useState<number[]>([]);
+  const [groupedPermissions, setGroupedPermissions] = useState<GroupedPermissions>({});
+  const {setRoles} = useRoleManagementContext();
+
+  useEffect(() => {
+    // Fetch permissions khi component mount
+    getAllPermissions();
+
+  }, []);
+
+  const getAllPermissions = async () => {
+    try {
+      const permissions = await getPermissionsAPI();
+      console.log('Permissions:', permissions);
+
+      // Gom nhóm permissions theo module
+      const grouped = permissions.reduce((acc: GroupedPermissions, permission: Permission) => {
+        const module = permission.module || 'Other';
+        if (!acc[module]) {
+          acc[module] = [];
+        }
+        acc[module].push(permission);
+        return acc;
+      }, {});
+
+      setGroupedPermissions(grouped);
+    } catch (error) {
+      console.error('Error fetching permissions:', error);
+    }
+  };
 
   const handlePermissionToggle = (permissionId: number) => {
     setSelectedPermissions((prev) =>
@@ -103,31 +55,32 @@ const AddRoleModal = ({ id }: { id: string }) => {
 
   const handleSubmit = async () => {
     if (!name) {
-      alert(translate('ROLE_NAME_REQUIRED') || 'Role name is required');
+      alert(translate('ROLE_NAME_REQUIRED') || 'Tên vai trò là bắt buộc');
       return;
     }
-    const newRole = {
-      id: Math.floor(Math.random() * 1000),
-      name,
-      description,
-      createdAt: new Date().toISOString().split('T')[0],
-      permissions: availablePermissions.filter((p) =>
-        selectedPermissions.includes(p.id)
-      ),
-    };
-    console.log('Creating role:', newRole);
-    // TODO: Call API to save role
+    // TODO: Gọi API để lưu vai trò
+    const data = await createRoleAPI({name, description, permissions: selectedPermissions});
+    
+    if(data){
+      // Cập nhật danh sách vai trò trong context
+      alert(translate('ROLE_ADDED_SUCCESSFULLY') || 'Vai trò đã được thêm thành công');
+      //refresh page
+      window.location.reload();
+    }
+
+    //set name và description về giá trị mặc định
+    setName('');
+    setDescription('');
+    setSelectedPermissions([]);
     document.getElementById(id)?.close();
   };
-
-  const groupedPermissions = groupPermissionsByModule(availablePermissions);
 
   return (
     <Modal id={id} title={translate('ADD_ROLE')}>
       <div className="grid gap-4">
         <Input
           title={translate('ROLE_NAME')}
-          placeholder="Enter role name..."
+          placeholder="Nhập tên vai trò..."
           type="text"
           name="name"
           value={name}
@@ -136,7 +89,7 @@ const AddRoleModal = ({ id }: { id: string }) => {
         />
         <Input
           title={translate('DESCRIPTION')}
-          placeholder="Enter description..."
+          placeholder="Nhập mô tả..."
           type="text"
           name="description"
           value={description}
@@ -157,24 +110,26 @@ const AddRoleModal = ({ id }: { id: string }) => {
                   {module.toUpperCase()}
                 </div>
                 <div className="collapse-content">
-                  {permissions.map((permission) => (
-                    <div key={permission.id} className="form-control">
-                      <label className="label cursor-pointer">
-                        <span className="label-text">
-                          {permission.description}{' '}
-                          <span>
-                            {permission.method}: {permission.path}
+                  <div className="grid grid-cols-2 gap-4">
+                    {permissions.map((permission: Permission) => (
+                      <div key={permission.id} className="form-control">
+                        <label className="label cursor-pointer flex items-center justify-start gap-2 ">
+                          <input
+                            type="checkbox"
+                            className="checkbox checkbox-primary"
+                            checked={selectedPermissions.includes(permission.id)}
+                            onChange={() => handlePermissionToggle(permission.id)}
+                          />
+                          <span className="label-text text-start">
+                            {permission.description}{' '}
+                            <span>
+                              {permission.method}: {permission.path}
+                            </span>
                           </span>
-                        </span>
-                        <input
-                          type="checkbox"
-                          className="checkbox checkbox-primary"
-                          checked={selectedPermissions.includes(permission.id)}
-                          onChange={() => handlePermissionToggle(permission.id)}
-                        />
-                      </label>
-                    </div>
-                  ))}
+                        </label>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
             ))}
