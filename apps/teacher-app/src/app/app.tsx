@@ -16,8 +16,6 @@ import PermissionRoot from './pages/permisson-management/PermissionRoot';
 import CourseGradingList from './pages/grading/Course-grading-list';
 import AssignmentList from './pages/grading/Assingnment-list';
 import SubmissionGrading from './pages/grading/Submission-grading';
-import GradeAssignment from './pages/grade-assignment/GradeAssignment';
-
 import CourseAssignmentList from './pages/assignment/Assignment-list';
 import AssignmentCreate from './pages/assignment/Assignment-create';
 import AssignmentEdit from './pages/assignment/Assignment-edit';
@@ -27,28 +25,40 @@ export function App() {
       <Route path="/login" element={<Login />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/reset-password" element={<ResetPassword />} />
-      <Route element={<DashBoardLayout><Outlet /></DashBoardLayout>}>
+      <Route
+        element={
+          <DashBoardLayout>
+            <Outlet />
+          </DashBoardLayout>
+        }
+      >
         <Route path="/" element={<DashBoard />} />
         <Route path="/users" element={<UserManagement />} />
         <Route path="/course/create_course" element={<CreateCourse />} />
         <Route path="/course/form/:courseId" element={<CourseForm />} />
-        <Route
-          path="dashboard/grading/:assignmentId"
-          element={<GradeAssignment />}
-        />
-         <Route path='/auth' element={<RoleRoot/>} />
-        <Route path="/permissions" element={<PermissionRoot/>} />
+        <Route path="/auth" element={<RoleRoot />} />
+        <Route path="/permissions" element={<PermissionRoot />} />
         {/* <Route path="/course/form/:courseId" element={<CourseForm />} /> */}
         <Route path="/grading" element={<CourseGradingList />} />
         <Route path="/grading/course/:courseId" element={<AssignmentList />} />
-        {/* <Route path="/grading/course/:courseId" element={<GradeAssignment />} /> */}
-
-        <Route path="/grading/course/:courseId/assignment/:assignmentId" element={<SubmissionGrading />} />
+        <Route
+          path="/grading/course/:courseId/assignment/:assignmentId"
+          element={<SubmissionGrading />}
+        />
         <Route path="/auth" element={<RoleManagement />} />
         <Route path="/permissions" element={<PermissionRoot />} />
-        <Route path="/courses/:courseId/assignments" element={<CourseAssignmentList />} />
-        <Route path="/courses/:courseId/assignments/create" element={<AssignmentCreate />} />
-        <Route path="/courses/:courseId/assignments/:assignmentId/edit" element={<AssignmentEdit />} />
+        <Route
+          path="/courses/:courseId/assignments"
+          element={<CourseAssignmentList />}
+        />
+        <Route
+          path="/courses/:courseId/assignments/create"
+          element={<AssignmentCreate />}
+        />
+        <Route
+          path="/courses/:courseId/assignments/:assignmentId/edit"
+          element={<AssignmentEdit />}
+        />
       </Route>
       <Route path="*" element={<div>404 Not Found</div>} />
     </Routes>
