@@ -15,6 +15,9 @@ import AssignmentList from './pages/grading/Assingnment-list';
 import SubmissionGrading from './pages/grading/Submission-grading';
 import GradeAssignment from './pages/grade-assignment/GradeAssignment';
 
+import CourseAssignmentList from './pages/assignment/Assignment-list';
+import AssignmentCreate from './pages/assignment/Assignment-create';
+import AssignmentEdit from './pages/assignment/Assignment-edit';
 export function App() {
   return (
     <Routes>
@@ -33,6 +36,9 @@ export function App() {
         <Route path="/grading/course/:courseId/assignment/:assignmentId" element={<SubmissionGrading />} />
         <Route path="/auth" element={<RoleManagement />} />
         <Route path="/permissions" element={<PermissionRoot />} />
+        <Route path="/courses/:courseId/assignments" element={<CourseAssignmentList />} />
+        <Route path="/courses/:courseId/assignments/create" element={<AssignmentCreate />} />
+        <Route path="/courses/:courseId/assignments/:assignmentId/edit" element={<AssignmentEdit />} />
       </Route>
       <Route path="*" element={<div>404 Not Found</div>} />
     </Routes>

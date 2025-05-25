@@ -48,7 +48,7 @@ const Header = () => {
                 <BookOpen  size={20} />
                 Quản lý khóa học
               </Link>
-              <Link to="/course/assignments" 
+              <Link to="/course/course:id/assignment" 
                 className="flex items-center gap-1 hover:text-blue-200 transition-colors px-2 py-1 rounded"
               >
                 <BookBookmark  size={20} />
